@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ToDoリスト</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #fefefe;
+    }
+    h1 { font-size: 20px; }
+    #todo-list {
+      list-style: none;
+      padding: 0;
+    }
+    #todo-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      margin: 6px 0;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button.delete {
+      background: #ff6666;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 8px;
+      cursor: pointer;
+    }
+    button.delete:hover {
+      background: #ff4444;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 ToDoリスト</h1>
+  <input id="todo-input" type="text" placeholder="やることを入力してね">
+  <button id="add-btn">追加</button>
+
+  <ul id="todo-list"></ul>
+
+  <script>
+    const input = document.getElementById("todo-input");
+    const addBtn = document.getElementById("add-btn");
+    const list = document.getElementById("todo-list");
+
+    // ToDo追加
+    addBtn.addEventListener("click", () => {
+      const text = input.value.trim();
+      if (text === "") return;
+
+      const li = document.createElement("li");
+      li.textContent = text;
+
+      // 削除ボタン作成
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "削除";
+      delBtn.className = "delete";
+      delBtn.onclick = () => li.remove();
+
+      li.appendChild(delBtn);
+      list.appendChild(li);
+
+      input.value = "";
+    });
+  </script>
+</body>
+</html>
