@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>ToDoリスト</title>
+  <title>ToDoリスト（保存つき）</title>
   <style>
     body {
       font-family: sans-serif;
@@ -39,7 +39,7 @@
   </style>
 </head>
 <body>
-  <h1>📋 ToDoリスト</h1>
+  <h1>📋 ToDoリスト（保存つき）</h1>
   <input id="todo-input" type="text" placeholder="やることを入力してね">
   <button id="add-btn">追加</button>
 
@@ -50,25 +50,45 @@
     const addBtn = document.getElementById("add-btn");
     const list = document.getElementById("todo-list");
 
+    // 🔹 ローカルストレージから保存済みのToDoを読み込む
+    let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+    function renderTodos() {
+      list.innerHTML = "";
+      todos.forEach((todo, index) => {
+        const li = document.createElement("li");
+        li.textContent = todo;
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "削除";
+        delBtn.className = "delete";
+        delBtn.onclick = () => {
+          todos.splice(index, 1);
+          saveTodos();
+          renderTodos();
+        };
+
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function saveTodos() {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
+
     // ToDo追加
     addBtn.addEventListener("click", () => {
       const text = input.value.trim();
       if (text === "") return;
-
-      const li = document.createElement("li");
-      li.textContent = text;
-
-      // 削除ボタン作成
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "削除";
-      delBtn.className = "delete";
-      delBtn.onclick = () => li.remove();
-
-      li.appendChild(delBtn);
-      list.appendChild(li);
-
+      todos.push(text);
+      saveTodos();
+      renderTodos();
       input.value = "";
     });
+
+    // ページ読み込み時に描画
+    renderTodos();
   </script>
 </body>
 </html>
