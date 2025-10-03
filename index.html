@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>ToDoリスト（保存つき）</title>
+  <div id="chiikawa-area">
+  <img src="chiikawa.png" id="chiikawa" alt="ちいかわ">
+</div>
   <style>
       body {
   font-family: 'Kosugi Maru', sans-serif;
@@ -39,6 +42,27 @@
     button.delete:hover {
       background: #ff4444;
     }
+    #chiikawa-area {
+  position: relative;
+  height: 220px; /* スペースの高さ調整 */
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+#chiikawa {
+  position: absolute;
+  bottom: 0;
+  width: 180px; /* 大きさお好みで */
+  animation: walk 8s linear infinite;
+}
+
+@keyframes walk {
+  0%   { left: -200px; transform: scaleX(1); }
+  45%  { left: 100%; transform: scaleX(1); }
+  50%  { left: 100%; transform: scaleX(-1); } /* 折り返しで反転 */
+  95%  { left: -200px; transform: scaleX(-1); }
+  100% { left: -200px; transform: scaleX(1); }
+}
   </style>
 </head>
 <body>
